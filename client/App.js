@@ -1,13 +1,28 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import {StackNavigator } from 'react-navigation';
+
+import DogList from './Components/DogList';
+import DogDetail from './Components/DogDetail';
+
+const Stack = StackNavigator({
+  Home: {
+    screen: DogList
+  },
+  Detail: {
+    screen: DogDetail
+  }
+},
+  {
+    initialRouteName: 'Home',
+  });
 
 export default class App extends React.Component {
   render() {
+	  console.log('Stac')
     return (
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
+        <Stack />
       </View>
     );
   }
@@ -17,7 +32,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
