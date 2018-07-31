@@ -1,4 +1,4 @@
-#Tue Jul 31 14:11:42 YEKT 2018
+#Tue Jul 31 22:45:45 YEKT 2018
 base.0=C\:\\GB\\Projects\\instaDog\\test\\android\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\1f\\main
 renamed.0=classes.dex
 file.0=C\:\\GB\\Projects\\instaDog\\test\\android\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\1f\\main\\classes.dex
