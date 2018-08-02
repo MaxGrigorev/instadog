@@ -3,9 +3,25 @@ import Screen2 from './Screens/Screen2';
 
 import { Navigation } from 'react-native-navigation';
 
+import { createStore, applyMiddleware } from 'redux';
+import { Provider, connect } from 'react-redux';
+import axios from 'axios';
+import axiosMiddleware from 'redux-axios-middleware';
+
+import reducer from './Reducers/dogReducer';
+import DogList from './Components/DogList';
+import DogDetail from './Components/DogDetail';
+
+const client = axios.create({
+  baseURL: 'http://192.168.1.7:8082',
+  responseType: 'json'
+});
+
+const store = createStore(reducer, applyMiddleware(axiosMiddleware(client)));
+
 export default () => {
-	Navigation.registerComponent('example.FirstTabScreen', () => Screen1);
-	Navigation.registerComponent('example.SecondTabScreen', () => Screen2);
+	Navigation.registerComponent('example.FirstTabScreen', () => DogList,store,Provider);
+	Navigation.registerComponent('example.SecondTabScreen', () => DogDetail,store,Provider);
 	
 //	Navigation.startTabBasedApp({
 //	  tabs: [

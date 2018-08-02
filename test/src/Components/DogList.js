@@ -26,7 +26,14 @@ class DogList extends Component {
 	  <TouchableOpacity
       style={styles.item}
       onPress={() =>
-        this.props.navigation.navigate('Detail', { name: item.breed, img: item.img })
+        this.props.navigator.push({
+          screen: 'example.SecondTabScreen',
+          title: item.breed,
+          passProps: {
+            name: item.breed,
+            img: item.img
+          }
+        })
       }
     >
 	  <View >
