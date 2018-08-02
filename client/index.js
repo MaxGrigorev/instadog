@@ -1,3 +1,3 @@
-import { AppRegistry } from 'react-native';
-import App from './App';
-AppRegistry.registerComponent('instaDog', () => App);
+import registerApp from './src/App.js';
+
+registerApp();

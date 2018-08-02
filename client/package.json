@@ -1,12 +1,13 @@
 {
-  "name": "instaDog",
+  "name": "test",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
     "babel-preset-react-native-stage-0": "^1.0.1",
     "jest": "^23.4.2",
     "jest-react-native": "^18.0.0",
-    "react-native-dotenv": "^0.2.0",
+    "react-native-navigation": "^1.1.478",
+    "react-navigation": "^2.9.3",
     "react-test-renderer": "16.3.1"
   },
   "scripts": {
@@ -20,7 +21,10 @@
   },
   "dependencies": {
     "react": "16.3.1",
-    "react-navigation": "^1.5.1",
-    "react-native": "~0.55.2"
+    "react-native": "~0.55.2",
+    "axios": "^0.17.1",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-axios-middleware": "^4.0.0"
   }
 }
