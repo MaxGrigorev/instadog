@@ -1,6 +1,3 @@
-import Screen1 from './Screens/Screen1';
-import Screen2 from './Screens/Screen2';
-
 import { Navigation } from 'react-native-navigation';
 
 import { createStore, applyMiddleware } from 'redux';
@@ -23,22 +20,6 @@ export default () => {
 	Navigation.registerComponent('example.FirstTabScreen', () => DogList,store,Provider);
 	Navigation.registerComponent('example.SecondTabScreen', () => DogDetail,store,Provider);
 	
-//	Navigation.startTabBasedApp({
-//	  tabs: [
-//		{
-//		  label: 'One',
-//		  screen: 'example.FirstTabScreen', // this is a registered name for a screen
-//		  icon: require('./img/logo.svg'),
-//		  title: 'Screen One'
-//		},
-//		{
-//		  label: 'Two',
-//		  screen: 'example.SecondTabScreen',
-//		  icon: require('./img/logo.svg'),
-//		  title: 'Screen Two'
-//		}
-//	  ]
-//	});
 	
 	Navigation.startSingleScreenApp({
 	  screen: {

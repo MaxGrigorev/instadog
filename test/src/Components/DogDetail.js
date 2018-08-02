@@ -5,12 +5,8 @@ import { getRepoDetail } from '../Reducers/dogReducer';
 
 class DogDetail extends Component {
   
-  // componentDidMount() {
-  //   const { name } = this.props.navigation.state.params;
-  // }
   render() {
 	  const { img } = this.props;
-
     return (
       <View>
 		<Image
