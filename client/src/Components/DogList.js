@@ -12,8 +12,56 @@ import { connect } from 'react-redux';
 import { listDogs } from '../Reducers/dogReducer';
 
 class DogList extends Component {
-  static navigationOptions = {
-    title: 'Repositories'
+  // static navigationOptions = {
+  //   title: 'Repositories'
+  // };
+
+  constructor(props) {
+    super(props);
+
+    this._fab = false;
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+  }
+
+  onNavigatorEvent(event) {
+    if (event.id === 'mail') {
+      this.props.navigator.showSnackbar({
+        text: 'Woo Snacks'
+      });
+    }
+  }
+
+  toggleFAB = () => {
+    if (this._fab) {
+      this.props.navigator.setButtons({
+        fab: {}
+      });
+      this._fab = false;
+    } else {
+      this.props.navigator.setButtons({
+        fab: {
+          collapsedId: 'share',
+          collapsedIcon: require('../img/edit.png'),
+          expendedId: 'clear',
+          expendedIcon: require('../img/edit.png'),
+          backgroundColor: '#ff505c',
+          actions: [
+            {
+              id: 'mail',
+              icon: require('../img/edit.png'),
+              backgroundColor: '#03A9F4'
+            },
+            {
+              id: 'delete',
+              icon: require('../img/delete.png'),
+              backgroundColor: '#4CAF50'
+            }
+          ]
+        },
+        animated: true
+      });
+      this._fab = true;
+    }
   };
 
   componentDidMount() {
@@ -44,7 +92,17 @@ class DogList extends Component {
     </TouchableOpacity>
   );
   render() {
+    this.toggleFAB();
     const { dogs } = this.props;
+    //если запускаем без сервера
+    //const dogs=[{"_id":"5b4edc6249d74f30e2b46566","breed":"springer-english","img":"https://images.dog.ceo/breeds/springer-english/n02102040_7011.jpg"},
+    //		{"_id":"5b4edca449d74f30e2b46567","breed":"kelpie","img":"https://images.dog.ceo/breeds/kelpie/n02105412_3078.jpg"},{"_id":"5b4edccd49d74f30e2b46568","breed":"rottweiler","img":"https://images.dog.ceo/breeds/rottweiler/n02106550_2832.jpg"},{"_id":"5b4edcf449d74f30e2b46569","breed":"beagle","img":"https://images.dog.ceo/breeds/beagle/n02088364_9650.jpg"},
+    //		{"_id":"5b4edca449d74f30e2b46567","breed":"kelpie","img":"https://images.dog.ceo/breeds/kelpie/n02105412_3078.jpg"},{"_id":"5b4edccd49d74f30e2b46568","breed":"rottweiler","img":"https://images.dog.ceo/breeds/rottweiler/n02106550_2832.jpg"},{"_id":"5b4edcf449d74f30e2b46569","breed":"beagle","img":"https://images.dog.ceo/breeds/beagle/n02088364_9650.jpg"},
+    //		{"_id":"5b4edca449d74f30e2b46567","breed":"kelpie","img":"https://images.dog.ceo/breeds/kelpie/n02105412_3078.jpg"},{"_id":"5b4edccd49d74f30e2b46568","breed":"rottweiler","img":"https://images.dog.ceo/breeds/rottweiler/n02106550_2832.jpg"},{"_id":"5b4edcf449d74f30e2b46569","breed":"beagle","img":"https://images.dog.ceo/breeds/beagle/n02088364_9650.jpg"},
+    //		{"_id":"5b4edca449d74f30e2b46567","breed":"kelpie","img":"https://images.dog.ceo/breeds/kelpie/n02105412_3078.jpg"},{"_id":"5b4edccd49d74f30e2b46568","breed":"rottweiler","img":"https://images.dog.ceo/breeds/rottweiler/n02106550_2832.jpg"},{"_id":"5b4edcf449d74f30e2b46569","breed":"beagle","img":"https://images.dog.ceo/breeds/beagle/n02088364_9650.jpg"},
+    //		{"_id":"5b4edca449d74f30e2b46567","breed":"kelpie","img":"https://images.dog.ceo/breeds/kelpie/n02105412_3078.jpg"},{"_id":"5b4edccd49d74f30e2b46568","breed":"rottweiler","img":"https://images.dog.ceo/breeds/rottweiler/n02106550_2832.jpg"},{"_id":"5b4edcf449d74f30e2b46569","breed":"beagle","img":"https://images.dog.ceo/breeds/beagle/n02088364_9650.jpg"},
+    //		{"_id":"5b4edca449d74f30e2b46567","breed":"kelpie","img":"https://images.dog.ceo/breeds/kelpie/n02105412_3078.jpg"},{"_id":"5b4edccd49d74f30e2b46568","breed":"rottweiler","img":"https://images.dog.ceo/breeds/rottweiler/n02106550_2832.jpg"},{"_id":"5b4edcf449d74f30e2b46569","breed":"beagle","img":"https://images.dog.ceo/breeds/beagle/n02088364_9650.jpg"},
+    //    {"_id":"5b4edd1749d74f30e2b4656a","breed":"akita","img":"https://images.dog.ceo/breeds/akita/Akita_Inu_dog.jpg"}]
 	  console.log('dogs',dogs)
     return (
       <FlatList
