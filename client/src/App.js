@@ -20,6 +20,7 @@ const store = createStore(reducer, applyMiddleware(axiosMiddleware(client)));
 export default () => {
 	Navigation.registerComponent('example.FirstTabScreen', () => DogList,store,Provider);
 	Navigation.registerComponent('example.SecondTabScreen', () => DogDetail,store,Provider);
+	Navigation.registerComponent('example.AddScreen', () => AddScreen,store,Provider);
 	
 	
 	Navigation.startSingleScreenApp({
