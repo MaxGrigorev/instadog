@@ -8,6 +8,7 @@ import axiosMiddleware from 'redux-axios-middleware';
 import reducer from './Reducers/dogReducer';
 import DogList from './Components/DogList';
 import DogDetail from './Components/DogDetail';
+import AddScreen from './Components/AddScreen';
 
 const client = axios.create({
   baseURL: 'http://192.168.1.7:8082',
