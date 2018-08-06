@@ -26,7 +26,7 @@ class DogList extends Component {
   onNavigatorEvent(event) {
     if (event.id === 'share') {
       this.props.navigator.push({
-        screen: 'example.AddScreen',
+        screen: 'example.RNCameraRollPicker',
         title: 'Добавить',
       })
     }

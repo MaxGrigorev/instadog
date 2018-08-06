@@ -9,6 +9,7 @@ import reducer from './Reducers/dogReducer';
 import DogList from './Components/DogList';
 import DogDetail from './Components/DogDetail';
 import AddScreen from './Components/AddScreen';
+import RNCameraRollPicker from './RNCameraRollPicker';
 
 const client = axios.create({
   baseURL: 'http://192.168.1.7:8082',
@@ -21,7 +22,7 @@ export default () => {
 	Navigation.registerComponent('example.FirstTabScreen', () => DogList,store,Provider);
 	Navigation.registerComponent('example.SecondTabScreen', () => DogDetail,store,Provider);
 	Navigation.registerComponent('example.AddScreen', () => AddScreen,store,Provider);
-	
+	Navigation.registerComponent('example.RNCameraRollPicker', () => RNCameraRollPicker,store,Provider);
 	
 	Navigation.startSingleScreenApp({
 	  screen: {
