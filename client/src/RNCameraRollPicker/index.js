@@ -6,7 +6,8 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Platform
+  Platform,
+  TextInput
 } from 'react-native';
 
 import CameraRollPicker from 'react-native-camera-roll-picker';
@@ -21,6 +22,7 @@ export default class RNCameraRollPicker extends Component {
       num: 0,
       selected: [],
       progress: 0,
+      text_breed: '',
     };
     this.sendServer = this.sendServer.bind(this);
   }
@@ -42,7 +44,7 @@ export default class RNCameraRollPicker extends Component {
       data.append('photos', {
         uri: photo.uri,
         type: 'image/jpeg',
-        name: 'image'+index
+        name: this.state.text_breed,
       });
     })
     console.log(data)
@@ -56,19 +58,17 @@ export default class RNCameraRollPicker extends Component {
       this.setState({
         progress: progress
       });
-    }).then((res) => console.log(res), (e) => console.log(e))
+    }).then((res) => console.log(res), (e) => console.log(e));
+    
+    this.props.navigator.resetTo({
+        screen: 'example.FirstTabScreen',
+        title: undefined,
+    });
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={this.sendServer}>
-          <View style={styles.content}>
-            <Text style={styles.text}>
-              <Text style={styles.bold}> {this.state.num}  {this.state.progress} </Text> images has been selected
-            </Text>
-          </View>
-        </TouchableOpacity>
         <CameraRollPicker
           scrollRenderAheadDistance={500}
           initialListSize={1}
@@ -76,12 +76,30 @@ export default class RNCameraRollPicker extends Component {
           removeClippedSubviews={false}
           groupTypes='SavedPhotos'
           batchSize={5}
-          maximum={10}
+          maximum={1}
           selected={this.state.selected}
           assetType='Photos'
           imagesPerRow={3}
           imageMargin={5}
           callback={this.getSelectedImages.bind(this)} />
+
+        
+          <View style={styles.content}>
+            <TextInput
+                  style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+                  onChangeText={(text_breed) => this.setState({text_breed})}
+                  value={this.state.text_breed}
+              />
+            <Text style={styles.text}>
+              <Text style={styles.bold}> {this.state.num}  {this.state.progress} </Text> images has been selected
+            </Text>
+          </View>
+        <TouchableOpacity
+               style = {styles.submitButton}
+               onPress={this.sendServer}
+               >
+               <Text style = {styles.submitButtonText}> Добавить </Text>
+            </TouchableOpacity>
       </View>
     );
   }
@@ -111,4 +129,22 @@ const styles = StyleSheet.create({
   info: {
     fontSize: 12,
   },
+//   container: {
+//     paddingTop: 23
+//  },
+ input: {
+    margin: 15,
+    height: 40,
+    borderColor: '#7a42f4',
+    borderWidth: 1
+ },
+ submitButton: {
+    backgroundColor: '#7a42f4',
+    padding: 10,
+    margin: 15,
+    height: 40,
+ },
+ submitButtonText:{
+    color: 'white'
+ }
 });
