@@ -28,10 +28,10 @@ export default class RNCameraRollPicker extends Component {
   }
 
   getSelectedImages(images, current) {
-    var num = images.length;
+    //var num = images.length;
 
     this.setState({
-      num: num,
+     // num: num,
       selected: images,
     });
   }
@@ -48,7 +48,7 @@ export default class RNCameraRollPicker extends Component {
       });
     })
     console.log(data)
-    const url = Platform.OS === 'android' ? 'http://192.168.1.7:8082/api/dogs' : 'http://192.168.1.7:8082/api/dogs'; // genymotion's localhost is 10.0.3.2
+    const url = 'http://192.168.1.7:8082/api/dogs';
     futch(url + '/array', {
       method: 'post',
       body: data
@@ -58,12 +58,13 @@ export default class RNCameraRollPicker extends Component {
       this.setState({
         progress: progress
       });
-    }).then((res) => console.log(res), (e) => console.log(e));
-    
-    this.props.navigator.resetTo({
+    }).then((res) => {
+      console.log(res);
+      this.props.navigator.resetTo({
         screen: 'example.FirstTabScreen',
-        title: undefined,
+        title: 'instaDOG',
     });
+    }, (e) => console.log(e));
   }
 
   render() {
@@ -85,21 +86,19 @@ export default class RNCameraRollPicker extends Component {
 
         
           <View style={styles.content}>
+            <Text style={styles.text}> Введи название </Text>
             <TextInput
-                  style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+                  style={{width: 100, flex: 1, height:30, borderColor: 'gray', borderWidth: 1}}
                   onChangeText={(text_breed) => this.setState({text_breed})}
                   value={this.state.text_breed}
               />
-            <Text style={styles.text}>
-              <Text style={styles.bold}> {this.state.num}  {this.state.progress} </Text> images has been selected
-            </Text>
           </View>
         <TouchableOpacity
-               style = {styles.submitButton}
-               onPress={this.sendServer}
-               >
-               <Text style = {styles.submitButtonText}> Добавить </Text>
-            </TouchableOpacity>
+            style = {styles.submitButton}
+            onPress={this.sendServer}
+            >
+            <Text style = {styles.submitButtonText}>{ (!this.state.progress) ? 'Отправить' : 'Отправка...'}</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -112,13 +111,14 @@ const styles = StyleSheet.create({
   },
   content: {
     marginTop: 15,
-    height: 50,
-    flexDirection: 'row',
+    height:80,
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     flexWrap: 'wrap',
   },
   text: {
+    flex: 1,
     fontSize: 16,
     alignItems: 'center',
     color: '#fff',

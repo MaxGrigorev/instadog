@@ -12,9 +12,6 @@ import { connect } from 'react-redux';
 import { listDogs } from '../Reducers/dogReducer';
 
 class DogList extends Component {
-  // static navigationOptions = {
-  //   title: 'Repositories'
-  // };
 
   constructor(props) {
     super(props);
@@ -48,24 +45,6 @@ class DogList extends Component {
           },
           animated: true
         });
-    // if (this._fab) {
-    //   this.props.navigator.setButtons({
-    //     fab: {}
-    //   });
-    //   this._fab = false;
-    // } else {
-    //   this.props.navigator.setButtons({
-    //     fab: {
-    //       collapsedId: 'share',
-    //       collapsedIcon: require('../img/edit.png'),
-    //       expendedId: 'clear',
-    //       expendedIcon: require('../img/edit.png'),
-    //       backgroundColor: '#ff505c',
-    //     },
-    //     animated: true
-    //   });
-    //   this._fab = true;
-    // }
   }
 
   componentDidMount() {
