@@ -90,7 +90,7 @@ class DogList extends Component {
     >
 	  <View >
 	  	<Image
-	  source={{uri: item.img}} style={{width: 400, height: 400}}/>
+	  source={{uri: 'http://192.168.1.7:8082/uploads/'+item.img}} style={{width: 400, height: 400}}/>
 	  	<Text style={styles.item}>{item.breed}</Text>
 	  </View>
     </TouchableOpacity>

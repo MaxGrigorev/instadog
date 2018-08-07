@@ -1,0 +1,13 @@
+export const GET_DOGS = 'GET_DOGS';
+export const GET_IMG = 'GET_IMG';
+export const GET_IMG_PENDING = 'GET_IMG_PENDING';
+export const GET_IMG_FULFILLED = 'GET_IMG_FULFILLED';
+export const GET_IMG_REJECTED = 'GET_IMG_REJECTED';
+export const GET_DOGS_PENDING = 'GET_DOGS_PENDING';
+export const GET_DOGS_FULFILLED = 'GET_DOGS_FULFILLED';
+export const GET_DOGS_REJECTED = 'GET_DOGS_REJECTED';
+export const ADD_DOGS = 'ADD_DOGS';
+export const GET_DOG = 'GET_DOG';
+export const GET_DOG_PENDING = 'GET_DOG_PENDING';
+export const GET_DOG_FULFILLED = 'GET_DOG_FULFILLED';
+export const GET_DOG_REJECTED = 'GET_DOG_REJECTED';
