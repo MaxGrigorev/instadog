@@ -11,8 +11,8 @@ import {
 } from 'react-native';
 
 import CameraRollPicker from 'react-native-camera-roll-picker';
-
 import futch from '../api';
+import * as Url from '../Constants/url';
 
 export default class RNCameraRollPicker extends Component {
   constructor(props) {
@@ -48,7 +48,7 @@ export default class RNCameraRollPicker extends Component {
       });
     })
     console.log(data)
-    const url = 'http://192.168.1.7:8082/api/dogs';
+    const url = Url.BASE_URL+'/api/dogs';
     futch(url + '/array', {
       method: 'post',
       body: data
