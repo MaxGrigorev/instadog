@@ -14,6 +14,8 @@ export const GET_USER = 'my-awesome-app/repos/USER';
 export const GET_USER_SUCCESS = 'my-awesome-app/repos/USER_SUCCESS';
 export const GET_USER_FAIL = 'my-awesome-app/repos/USER_FAIL';
 
+import axios from 'axios';
+
 const initialState = { dogs: [], repos: [], repoInfo: {}, user: {} };
 
 export default function reducer(state = initialState, action) {
@@ -98,4 +100,23 @@ export function getUser(user) {
       }
     }
   };
+}
+
+
+export function addImg(breed,imgUrl) {
+
+  alert('email: ' + breed + ' password: ' + imgUrl)
+  axios.post('http://192.168.1.7:8082/api/dogs/add', {
+    breed: breed,
+    img: imgUrl
+  })
+  .then(function (response) {
+    return {
+      type: GET_DOGS_SUCCESS,
+      payload: response
+    };
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
 }
