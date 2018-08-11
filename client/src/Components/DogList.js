@@ -39,9 +39,7 @@ class DogList extends Component {
     this.props.navigator.setButtons({
           fab: {
             collapsedId: 'share',
-            collapsedIcon: require('../img/edit.png'),
-            expendedId: 'clear',
-            expendedIcon: require('../img/edit.png'),
+            collapsedIcon: require('../img/icons8-plus-math-60.png'),
             backgroundColor: '#ff505c',
           },
           animated: true
@@ -69,8 +67,12 @@ class DogList extends Component {
       }
     >
       <View >
-        <Text style={{fontSize:80}}>{item.breed}</Text>
-        <Image source={{uri: Url.BASE_URL+'/uploads/'+item.img}} style={{width: 400, height: 400}}/>
+        <Text style={{fontSize:30}}>{item.breed}</Text>
+        <Image source={{uri: Url.BASE_URL+'/uploads/'+item.img}} resizeMode={Image.resizeMode.cover} style={{width: 400, height: 200}}/>
+        <View style={{flex: 1,flexDirection: 'row'}}>
+          <Image source={require('../img/icons8-heart-outline-50.png')}  style={{width: 40, height: 40,}}/>
+          <Text style={{fontSize:30}}>0</Text>
+        </View >
       </View>
     </TouchableOpacity>
   );
