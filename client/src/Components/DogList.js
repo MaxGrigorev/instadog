@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { listDogs } from '../Reducers/dogReducer';
+import { listDogs, likeDog } from '../Reducers/dogReducer';
 import * as Url from '../Constants/url';
 
 class DogList extends Component {
@@ -19,6 +19,7 @@ class DogList extends Component {
 
     this._fab = false;
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    //this.likeHandle = this.likeHandle.bind(this);
   }
 
   onNavigatorEvent(event) {
@@ -27,11 +28,6 @@ class DogList extends Component {
         screen: 'example.RNCameraRollPicker',
         title: 'Добавить',
       })
-    }
-    if (event.id === 'clear') {
-      this.props.navigator.showSnackbar({
-        text: 'Woo Snacks'
-      });
     }
   }
 
@@ -46,6 +42,11 @@ class DogList extends Component {
         });
   }
 
+  likeHandle=(item)=>{
+    console.log(item)
+    this.props.likeDog(item._id)
+  }
+
   componentDidMount() {
     this.props.listDogs();
   }
@@ -53,6 +54,7 @@ class DogList extends Component {
 //renderItem={({item}) => <View><Image source={{uri: item._id}} style={{width: 400, height: 400}}/><Text style={styles.item}>{item.breed}</Text></View>}
 
   renderItem = ({ item }) => (
+    <View >
 	  <TouchableOpacity
       style={styles.item}
       onPress={() =>
@@ -69,12 +71,21 @@ class DogList extends Component {
       <View >
         <Text style={{fontSize:30}}>{item.breed}</Text>
         <Image source={{uri: Url.BASE_URL+'/uploads/'+item.img}} resizeMode={Image.resizeMode.cover} style={{width: 400, height: 200}}/>
-        <View style={{flex: 1,flexDirection: 'row'}}>
-          <Image source={require('../img/icons8-heart-outline-50.png')}  style={{width: 40, height: 40,}}/>
-          <Text style={{fontSize:30}}>0</Text>
-        </View >
+        
       </View>
     </TouchableOpacity>
+
+    <TouchableOpacity
+      style={styles.item}
+      onPress={this.likeHandle.bind(this,item)}
+      >
+    <View style={{flex: 1,flexDirection: 'row'}} 
+          >
+      <Image  source={require('../img/icons8-heart-outline-50.png')}  style={{width: 40, height: 40,}}/>
+      <Text style={{fontSize:30}}>{item.like}</Text>
+    </View >
+    </TouchableOpacity>
+    </View >
   );
   render() {
     this.toggleFAB();
@@ -105,21 +116,20 @@ const styles = StyleSheet.create({
     flex: 1
   },
   item: {
-    color: 'black',
   }
 });
 
 const mapStateToProps = state => {
 
-	//console.log(state)
-  let storedRepositories = state.dogs.map(dog => ({...dog }));
+	console.log('mapStateToProps', state)
+  let storedDogs = state.dogs.map(dog => ({...dog }));
   return {
-    dogs: storedRepositories
+    dogs: storedDogs
   };
 };
 
 const mapDispatchToProps = {
-  listDogs
+  listDogs,likeDog
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DogList);

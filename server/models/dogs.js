@@ -4,7 +4,8 @@ let Schema = mongoose.Schema;
 
 let dogsSchema = new Schema({
     breed: String,
-    img: String
+    img: String,
+    like: Number
 });
 
 module.exports = mongoose.model('Dogs', dogsSchema);

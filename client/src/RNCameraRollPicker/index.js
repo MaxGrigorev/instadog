@@ -35,6 +35,7 @@ export default class RNCameraRollPicker extends Component {
       selected: images,
     });
   }
+  
   sendServer() {
     console.log(this.state.selected)
     const photos = this.state.selected;

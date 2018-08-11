@@ -11,7 +11,6 @@ class DogDetail extends Component {
       <View>
 		<Image
 	  source={{uri: img}} style={{width: 400, height: 400}}/>
-        <Text>{this.props.name}</Text>
       </View>
     );
   }

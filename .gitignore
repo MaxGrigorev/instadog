@@ -18,3 +18,4 @@ yarn-error.log*
 /client/node_modules/
 /server/node_modules/
 /test/node_modules/
+/server/dist/uploads/
