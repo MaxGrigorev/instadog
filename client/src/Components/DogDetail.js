@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { View, Text,Image } from 'react-native';
-import { connect } from 'react-redux';
-import { getRepoDetail } from '../Reducers/dogReducer';
 
 class DogDetail extends Component {
   
@@ -15,7 +13,5 @@ class DogDetail extends Component {
     );
   }
 }
-
-
 
 export default DogDetail;
