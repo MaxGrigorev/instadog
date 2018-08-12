@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { listDogs, likeDog } from '../Reducers/dogReducer';
+import { listDogs, likeDog, likePress } from '../Reducers/dogReducer';
 import * as Url from '../Constants/url';
 
 class DogList extends Component {
@@ -43,7 +43,9 @@ class DogList extends Component {
   }
 
   likeHandle=(item)=>{
-    console.log(item)
+    console.log('this.props.dogsLike',this.props.dogsLike)
+
+    this.props.likePress(item._id,this.props.dogsLike)
     this.props.likeDog(item._id)
   }
 
@@ -81,7 +83,7 @@ class DogList extends Component {
       >
     <View style={{flex: 1,flexDirection: 'row'}} 
           >
-      <Image  source={require('../img/icons8-heart-outline-50.png')}  style={{width: 40, height: 40,}}/>
+      <Image  source={(this.props.dogsLike.indexOf(item._id)!=-1) ? require('../img/icons8-heart-outline-50-red.png') :require('../img/icons8-heart-outline-50.png')}  style={{width: 40, height: 40,}}/>
       <Text style={{fontSize:30}}>{item.like}</Text>
     </View >
     </TouchableOpacity>
@@ -90,6 +92,7 @@ class DogList extends Component {
   render() {
     this.toggleFAB();
     const { dogs } = this.props;
+    console.log('dogs', dogs)
     //если запускаем без сервера
     //const dogs=[{"_id":"5b4edc6249d74f30e2b46566","breed":"springer-english","img":"https://images.dog.ceo/breeds/springer-english/n02102040_7011.jpg"},
     //		{"_id":"5b4edca449d74f30e2b46567","breed":"kelpie","img":"https://images.dog.ceo/breeds/kelpie/n02105412_3078.jpg"},{"_id":"5b4edccd49d74f30e2b46568","breed":"rottweiler","img":"https://images.dog.ceo/breeds/rottweiler/n02106550_2832.jpg"},{"_id":"5b4edcf449d74f30e2b46569","breed":"beagle","img":"https://images.dog.ceo/breeds/beagle/n02088364_9650.jpg"},
@@ -123,13 +126,15 @@ const mapStateToProps = state => {
 
 	console.log('mapStateToProps', state)
   let storedDogs = state.dogs.map(dog => ({...dog }));
+  let storedDogsLike = state.dogsLike.map(dogLike => (dogLike));
   return {
-    dogs: storedDogs
+    dogs: storedDogs,
+    dogsLike:storedDogsLike
   };
 };
 
 const mapDispatchToProps = {
-  listDogs,likeDog
+  listDogs,likeDog,likePress
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DogList);

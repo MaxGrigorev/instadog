@@ -19,6 +19,11 @@ export const GET_LIKES_PENDING = 'GET_LIKES_PENDING';
 export const GET_LIKES_FULFILLED = 'GET_LIKES_FULFILLED';
 export const GET_LIKES_REJECTED = 'GET_LIKES_REJECTED';
 
+export const GET_LIKES_PRESS = 'GET_LIKES_PRESS';
+export const GET_LIKES_PRESS_PENDING = 'GET_LIKES_PRESS_PENDING';
+export const GET_LIKES_PRESS_FULFILLED = 'GET_LIKES_PRESS_FULFILLED';
+export const GET_LIKES_PRESS_REJECTED = 'GET_LIKES_PRESS_REJECTED';
+
 export const GET_DOGS = 'GET_DOGS';
 export const GET_IMG = 'GET_IMG';
 export const GET_IMG_PENDING = 'GET_IMG_PENDING';
@@ -37,7 +42,7 @@ import * as Url from '../Constants/url';
 
 import axios from 'axios';
 
-const initialState = { dogs: [], repos: [], repoInfo: {}, user: {} };
+const initialState = { dogs: [],dogsLike:[], repos: [], repoInfo: {}, user: {} };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
@@ -52,6 +57,12 @@ export default function reducer(state = initialState, action) {
     case GET_LIKES_FULFILLED:
       return { ...state, loading: false, dogs: action.payload.data };
     case GET_LIKES_REJECTED:
+      return { ...state, loading: false, error: 'Error getting dogs info' };
+    case GET_LIKES_PRESS_PENDING:
+      return { ...state, loading: true};
+    case GET_LIKES_PRESS_FULFILLED:
+      return { ...state, loading: false, dogsLike: action.payload };
+    case GET_LIKES_PRESS_REJECTED:
       return { ...state, loading: false, error: 'Error getting dogs info' };
     case GET_REPO_INFO:
       return { ...state, loadingInfo: true };
@@ -115,6 +126,18 @@ export function likeDog(id) {
   return {
     type: GET_LIKES,
     payload: like
+  };
+}
+
+export function likePress(id,dogsLike) {
+  console.log('id',id)
+  //let temp = ({id:id,dogLikePress:true})
+  //dogsLike.push(temp)
+  dogsLike.push(id)
+  console.log('likePress ', dogsLike)
+  return {
+    type: GET_LIKES_PRESS_FULFILLED,
+    payload: dogsLike
   };
 }
 

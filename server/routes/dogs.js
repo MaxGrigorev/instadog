@@ -80,22 +80,25 @@ router.post('/like', function (req, res, next) {
     DogsModel.findByIdAndUpdate(id, {$inc:{like: 1}}, function(err, user){
      
             //mongoose.disconnect();
-            if(err) return console.log(err);
+            if(err) console.log(err);
             console.log("Обновленный объект", user);
+        
+            DogsModel.find({}, function (err, dogs) {
+                //Если ошибка
+                if(err){
+                    return next(err);
+                }
+                //Если посты получены
+        
+                console.log(dogs);
+                res.json(dogs);
+            });
+
         });
 
         console.log('after   ',id);
 
-    DogsModel.find({}, function (err, dogs) {
-        //Если ошибка
-        if(err){
-            return next(err);
-        }
-        //Если посты получены
-
-        console.log(dogs);
-        res.json(dogs);
-    });
+    
 });
 
 router.post('/single', upload.single('photo'), function (req, res, next) {
