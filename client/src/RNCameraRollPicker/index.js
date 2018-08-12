@@ -28,15 +28,12 @@ export default class RNCameraRollPicker extends Component {
   }
 
   getSelectedImages(images, current) {
-    //var num = images.length;
-
     this.setState({
-     // num: num,
       selected: images,
     });
   }
+  
   sendServer() {
-    console.log(this.state.selected)
     const photos = this.state.selected;
     const data = new FormData();
     data.append('name', 'testName');
@@ -47,19 +44,18 @@ export default class RNCameraRollPicker extends Component {
         name: this.state.text_breed,
       });
     })
-    console.log(data)
     const url = Url.BASE_URL+'/api/dogs';
     futch(url + '/array', {
       method: 'post',
       body: data
     }, (e) => {
       const progress = e.loaded / e.total;
-      console.log(progress);
+      //console.log(progress);
       this.setState({
         progress: progress
       });
     }).then((res) => {
-      console.log(res);
+      //console.log(res);
       this.props.navigator.resetTo({
         screen: 'example.FirstTabScreen',
         title: 'instaDOG',
@@ -84,7 +80,6 @@ export default class RNCameraRollPicker extends Component {
           imageMargin={5}
           callback={this.getSelectedImages.bind(this)} />
 
-        
           <View style={styles.content}>
             <Text style={styles.text}> Введи название </Text>
             <TextInput
@@ -129,22 +124,19 @@ const styles = StyleSheet.create({
   info: {
     fontSize: 12,
   },
-//   container: {
-//     paddingTop: 23
-//  },
- input: {
+  input: {
     margin: 15,
     height: 40,
     borderColor: '#7a42f4',
     borderWidth: 1
- },
- submitButton: {
+  },
+  submitButton: {
     backgroundColor: '#7a42f4',
     padding: 10,
     margin: 15,
     height: 40,
- },
- submitButtonText:{
+  },
+  submitButtonText:{
     color: 'white'
- }
+  }
 });

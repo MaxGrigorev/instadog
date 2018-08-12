@@ -8,8 +8,7 @@ import {
 	Image
 } from 'react-native';
 import { connect } from 'react-redux';
-
-import { listDogs } from '../Reducers/dogReducer';
+import { listDogs, likeDog, likePress } from '../Reducers/dogReducer';
 import * as Url from '../Constants/url';
 
 class DogList extends Component {
@@ -28,11 +27,6 @@ class DogList extends Component {
         title: 'Добавить',
       })
     }
-    if (event.id === 'clear') {
-      this.props.navigator.showSnackbar({
-        text: 'Woo Snacks'
-      });
-    }
   }
 
   toggleFAB = () => {
@@ -46,39 +40,51 @@ class DogList extends Component {
         });
   }
 
+  likeHandle=(item)=>{
+    this.props.likePress(item._id,this.props.dogsLike)
+    this.props.likeDog(item._id)
+  }
+
   componentDidMount() {
     this.props.listDogs();
   }
 
-//renderItem={({item}) => <View><Image source={{uri: item._id}} style={{width: 400, height: 400}}/><Text style={styles.item}>{item.breed}</Text></View>}
-
   renderItem = ({ item }) => (
-	  <TouchableOpacity
-      style={styles.item}
-      onPress={() =>
-        this.props.navigator.push({
-          screen: 'example.SecondTabScreen',
-          title: item.breed,
-          passProps: {
-            name: item.breed,
-            img: Url.BASE_URL+'/uploads/'+item.img
-          }
-        })
-      }
-    >
-      <View >
-        <Text style={{fontSize:30}}>{item.breed}</Text>
-        <Image source={{uri: Url.BASE_URL+'/uploads/'+item.img}} resizeMode={Image.resizeMode.cover} style={{width: 400, height: 200}}/>
-        <View style={{flex: 1,flexDirection: 'row'}}>
-          <Image source={require('../img/icons8-heart-outline-50.png')}  style={{width: 40, height: 40,}}/>
-          <Text style={{fontSize:30}}>0</Text>
+    <View >
+      <TouchableOpacity
+        style={styles.item}
+        onPress={() =>
+          this.props.navigator.push({
+            screen: 'example.SecondTabScreen',
+            title: item.breed,
+            passProps: {
+              name: item.breed,
+              img: Url.BASE_URL+'/uploads/'+item.img
+            }
+          })
+        }
+      >
+        <View >
+          <Text style={{fontSize:30}}>{item.breed}</Text>
+          <Image source={{uri: Url.BASE_URL+'/uploads/'+item.img}} style={{width: 400, height: 200}}/>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.item}
+        onPress={this.likeHandle.bind(this,item)}
+        >
+        <View style={{flex: 1,flexDirection: 'row'}} 
+              >
+          <Image  source={(this.props.dogsLike.indexOf(item._id)!=-1) ? require('../img/icons8-heart-outline-50-red.png') :require('../img/icons8-heart-outline-50.png')}  style={{width: 40, height: 40,}}/>
+          <Text style={{fontSize:30}}>{item.like}</Text>
         </View >
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </View >
   );
   render() {
     this.toggleFAB();
     const { dogs } = this.props;
+    //console.log('dogs', dogs)
     //если запускаем без сервера
     //const dogs=[{"_id":"5b4edc6249d74f30e2b46566","breed":"springer-english","img":"https://images.dog.ceo/breeds/springer-english/n02102040_7011.jpg"},
     //		{"_id":"5b4edca449d74f30e2b46567","breed":"kelpie","img":"https://images.dog.ceo/breeds/kelpie/n02105412_3078.jpg"},{"_id":"5b4edccd49d74f30e2b46568","breed":"rottweiler","img":"https://images.dog.ceo/breeds/rottweiler/n02106550_2832.jpg"},{"_id":"5b4edcf449d74f30e2b46569","breed":"beagle","img":"https://images.dog.ceo/breeds/beagle/n02088364_9650.jpg"},
@@ -94,7 +100,7 @@ class DogList extends Component {
         styles={styles.container}
         data={dogs}
         renderItem={this.renderItem}
-		keyExtractor={(item, index) =>  index.toString()}
+		    keyExtractor={(item, index) =>  index.toString()}
       />
     );
   }
@@ -105,21 +111,20 @@ const styles = StyleSheet.create({
     flex: 1
   },
   item: {
-    color: 'black',
   }
 });
 
 const mapStateToProps = state => {
-
-	//console.log(state)
-  let storedRepositories = state.dogs.map(dog => ({...dog }));
+  let storedDogs = state.dogs.map(dog => ({...dog }));
+  let storedDogsLike = state.dogsLike.map(dogLike => (dogLike));
   return {
-    dogs: storedRepositories
+    dogs: storedDogs,
+    dogsLike:storedDogsLike
   };
 };
 
 const mapDispatchToProps = {
-  listDogs
+  listDogs,likeDog,likePress
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DogList);

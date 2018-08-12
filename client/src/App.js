@@ -1,24 +1,16 @@
 import { Navigation } from 'react-native-navigation';
-
-import { createStore, applyMiddleware } from 'redux';
+import {createStore, combineReducers, applyMiddleware} from 'redux';
 import { Provider, connect } from 'react-redux';
-import axios from 'axios';
-import axiosMiddleware from 'redux-axios-middleware';
-
-import reducer from './Reducers/dogReducer';
-
+import {createLogger} from 'redux-logger';
+import promiseMiddleware from 'redux-promise-middleware';
+import dogReducer from './Reducers/dogReducer';
 import DogList from './Components/DogList';
 import DogDetail from './Components/DogDetail';
 import RNCameraRollPicker from './RNCameraRollPicker';
-
 import * as Url from './Constants/url';
 
-const client = axios.create({
-  baseURL: Url.BASE_URL,
-  responseType: 'json'
-});
-
-const store = createStore(reducer, applyMiddleware(axiosMiddleware(client)));
+const middleware = applyMiddleware(promiseMiddleware(), createLogger());
+const store = createStore(dogReducer, middleware);
 
 export default () => {
 	Navigation.registerComponent('example.FirstTabScreen', () => DogList,store,Provider);

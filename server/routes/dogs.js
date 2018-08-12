@@ -4,7 +4,7 @@ var bodyParser = require ('body-parser');
 
 var multer  = require('multer')
 var upload = multer({ dest: 'dist/uploads/' })
-
+let mongoose = require('mongoose');
 
 let router = express.Router();
 
@@ -48,16 +48,57 @@ router.post('/add', function (req, res, next) {
     //console.log(req.query);
     let breed = req.body.breed;
     let img = req.body.img;
+    
     //TODO: получить body и выполнить сохранение модели
     //http://mongoosejs.com/docs/models.html
 
-	var small = new DogsModel({ breed: breed, img:img });
+	var small = new DogsModel({ breed: breed, img:img});
 	small.save(function (err) {
 	  if (err) return handleError(err);
 	  // saved!
 	});
 
     res.json({status: "ok", breed, img});
+});
+
+router.post('/like', function (req, res, next) {
+    //console.log(req.query);
+    let id = req.body.id;
+    //TODO: получить body и выполнить сохранение модели
+    //http://mongoosejs.com/docs/models.html
+    console.log('do    ',id);
+    // var conditions = { _id: id }
+    // , update = { like: 1 }
+
+    // Model.update(conditions, update, {}, callback)
+
+	//var small = new DogsModel({ breed: breed, img:img });
+	// small.save(function (err) {
+	//   if (err) return handleError(err);
+	//   // saved!
+    // });
+    DogsModel.findByIdAndUpdate(id, {$inc:{like: 1}}, function(err, user){
+     
+            //mongoose.disconnect();
+            if(err) console.log(err);
+            console.log("Обновленный объект", user);
+        
+            DogsModel.find({}, function (err, dogs) {
+                //Если ошибка
+                if(err){
+                    return next(err);
+                }
+                //Если посты получены
+        
+                console.log(dogs);
+                res.json(dogs);
+            });
+
+        });
+
+        console.log('after   ',id);
+
+    
 });
 
 router.post('/single', upload.single('photo'), function (req, res, next) {
@@ -76,8 +117,9 @@ router.post('/array', upload.array('photos', 12), function (req, res, next) {
 
     let breed = req.files[0].originalname;
     let img = req.files[0].filename;
+    let like=0;
 
-    var small = new DogsModel({ breed: breed, img:  img});
+    var small = new DogsModel({ breed: breed, img:  img,like:like});
 	small.save(function (err) {
 	  if (err) return handleError(err);
 	  // saved!

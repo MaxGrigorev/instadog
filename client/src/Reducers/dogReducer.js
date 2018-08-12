@@ -1,112 +1,83 @@
-export const GET_REPOS = 'my-awesome-app/repos/LOAD';
-export const GET_REPOS_SUCCESS = 'my-awesome-app/repos/LOAD_SUCCESS';
-export const GET_REPOS_FAIL = 'my-awesome-app/repos/LOAD_FAIL';
+export const GET_LIKES = 'GET_LIKES';
+export const GET_LIKES_PENDING = 'GET_LIKES_PENDING';
+export const GET_LIKES_FULFILLED = 'GET_LIKES_FULFILLED';
+export const GET_LIKES_REJECTED = 'GET_LIKES_REJECTED';
 
-export const GET_DOGS = 'my-awesome-app/dogs/LOAD';
-export const GET_DOGS_SUCCESS = 'my-awesome-app/dogs/LOAD_SUCCESS';
-export const GET_DOGS_FAIL = 'my-awesome-app/dogs/LOAD_FAIL';
+export const GET_LIKES_PRESS = 'GET_LIKES_PRESS';
+export const GET_LIKES_PRESS_PENDING = 'GET_LIKES_PRESS_PENDING';
+export const GET_LIKES_PRESS_FULFILLED = 'GET_LIKES_PRESS_FULFILLED';
+export const GET_LIKES_PRESS_REJECTED = 'GET_LIKES_PRESS_REJECTED';
 
-export const GET_REPO_INFO = 'my-awesome-app/repos/INFO';
-export const GET_REPO_INFO_SUCCESS = 'my-awesome-app/repos/INFO_SUCCESS';
-export const GET_REPO_INFO_FAIL = 'my-awesome-app/repos/INFO_FAIL';
+export const GET_DOG = 'GET_DOG';
+export const GET_DOG_PENDING = 'GET_DOG_PENDING';
+export const GET_DOG_FULFILLED = 'GET_DOG_FULFILLED';
+export const GET_DOG_REJECTED = 'GET_DOG_REJECTED';
 
-export const GET_USER = 'my-awesome-app/repos/USER';
-export const GET_USER_SUCCESS = 'my-awesome-app/repos/USER_SUCCESS';
-export const GET_USER_FAIL = 'my-awesome-app/repos/USER_FAIL';
-
+import * as Url from '../Constants/url';
 import axios from 'axios';
 
-const initialState = { dogs: [], repos: [], repoInfo: {}, user: {} };
+const initialState = { dogs: [],dogsLike:[], repos: [], repoInfo: {}, user: {} };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case GET_REPOS:
+	  case GET_DOG_PENDING:
       return { ...state, loading: true };
-    case GET_REPOS_SUCCESS:
-      return { ...state, loading: false, repos: action.payload.data };
-    case GET_REPOS_FAIL:
-      return { ...state, loading: false, error: 'Error getting repos info' };
-	case GET_DOGS:
-      return { ...state, loading: true };
-    case GET_DOGS_SUCCESS:
+    case GET_DOG_FULFILLED:
       return { ...state, loading: false, dogs: action.payload.data };
-    case GET_DOGS_FAIL:
+    case GET_DOG_REJECTED:
       return { ...state, loading: false, error: 'Error getting dogs info' };
-    case GET_REPO_INFO:
-      return { ...state, loadingInfo: true };
-    case GET_REPO_INFO_SUCCESS:
-      return { ...state, loadingInfo: false, repoInfo: action.payload.data };
-    case GET_REPO_INFO_FAIL:
-      console.log(action.payload);
-      return {
-        ...state,
-        loadingInfo: false,
-        errorInfo: 'Error getting repo info'
-      };
-    case GET_USER:
-      return { ...state, loadingProfile: true };
-    case GET_USER_SUCCESS:
-      return { ...state, loadingProfile: false, user: action.payload.data };
-    case GET_USER_FAIL:
-      return {
-        ...state,
-        loadingProfile: false,
-        errorUser: 'Error getting user info'
-      };
+    case GET_LIKES_PENDING:
+      return { ...state, loading: true};
+    case GET_LIKES_FULFILLED:
+      return { ...state, loading: false, dogs: action.payload.data };
+    case GET_LIKES_REJECTED:
+      return { ...state, loading: false, error: 'Error getting dogs info' };
+    case GET_LIKES_PRESS_PENDING:
+      return { ...state, loading: true};
+    case GET_LIKES_PRESS_FULFILLED:
+      return { ...state, loading: false, dogsLike: action.payload };
+    case GET_LIKES_PRESS_REJECTED:
+      return { ...state, loading: false, error: 'Error getting dogs info' };
     default:
       return state;
   }
 }
 
-export function listRepos(user) {
-  return {
-    type: GET_REPOS,
-    payload: {
-      request: {
-        url: `/users/${user}/repos`
-      }
-    }
-  };
-}
-
 export function listDogs() {
   return {
-    type: GET_DOGS,
-    payload: {
-      request: {
-        url: `/api/dogs`
-      }
-    }
-  };
+    type: GET_DOG,
+    payload: axios.get(Url.BASE_URL+'/api/dogs')
+  }
 }
 
-export function getRepoDetail(user, repo) {
+export function likeDog(id) {
+
+  let like= axios.post(Url.BASE_URL+'/api/dogs/like', {
+    id: id
+  })
+  .then((response)=> {
+    return response
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+
   return {
-    type: GET_REPO_INFO,
-    payload: {
-      request: {
-        url: `/repos/${user}/${repo}`
-      }
-    }
+    type: GET_LIKES,
+    payload: like
   };
 }
 
-export function getUser(user) {
+export function likePress(id,dogsLike) {
+  dogsLike.push(id)
   return {
-    type: GET_USER,
-    payload: {
-      request: {
-        url: `/users/${user}`
-      }
-    }
+    type: GET_LIKES_PRESS_FULFILLED,
+    payload: dogsLike
   };
 }
-
 
 export function addImg(breed,imgUrl) {
-
-  alert('email: ' + breed + ' password: ' + imgUrl)
-  axios.post('http://192.168.1.7:8082/api/dogs/add', {
+  axios.post(Url.BASE_URL+'/api/dogs/add', {
     breed: breed,
     img: imgUrl
   })
