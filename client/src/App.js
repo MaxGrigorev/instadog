@@ -25,7 +25,7 @@ const middleware = applyMiddleware(promiseMiddleware(), createLogger());
 // 	//user: usersReducer
 // });
 
-//Создаем стор
+// const store = createStore(reducers, middleware);
 const store = createStore(dogReducer, middleware);
 
 
